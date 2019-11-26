@@ -25,7 +25,7 @@ public class Domain {
     private String code; //MT, IMT
     
     @JsonIgnore
-    @OneToMany(mappedBy = "domain")
+    @OneToMany
     private Set<Student> students = new HashSet<>();
     
     public Domain() {

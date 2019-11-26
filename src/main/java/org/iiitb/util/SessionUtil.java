@@ -4,8 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.iiitb.bean.Domain;
-import org.iiitb.bean.Student;
+import org.iiitb.bean.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +18,9 @@ public class SessionUtil {
             Configuration configuration = new Configuration();
             
             configuration.addAnnotatedClass(Student.class)
-                    .addAnnotatedClass(Domain.class);
+                    .addAnnotatedClass(Domain.class).addAnnotatedClass(User.class)
+                    .addAnnotatedClass(Organization.class).addAnnotatedClass(Alumni.class);
+
             
             sessionFactory = configuration.buildSessionFactory();
         }

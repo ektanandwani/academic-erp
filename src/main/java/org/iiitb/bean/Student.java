@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Student {
     
     @Id
@@ -15,18 +16,21 @@ public class Student {
     
     @NotBlank
     private String firstName;
-    private String middleName;
     private String lastName;
+
+    @Column
+    @NotBlank
+    private Integer admissionYear;
     
     @Column(unique = true)
     private String emailId;
-    
-    @NotBlank
-    private String photograph;
-    
+
     @ManyToOne
     private Domain domain = new Domain();
-    
+
+    @ManyToOne
+    private Organization organization = new Organization();
+
     public Student() {
     }
     
@@ -34,16 +38,23 @@ public class Student {
         this.id = id;
     }
     
-    public Student(String rollNumber, String firstName, String middleName, String lastName, String emailId, String photograph, Domain domain) {
+    public Student(String rollNumber, String firstName, String lastName, String emailId, Integer admissionYear, Domain domain) {
         this.rollNumber = rollNumber;
         this.firstName = firstName;
-        this.middleName = middleName;
         this.lastName = lastName;
         this.emailId = emailId;
-        this.photograph = photograph;
+        this.admissionYear = admissionYear;
         this.domain = domain;
     }
-    
+
+    public Integer getAdmissionYear() {
+        return admissionYear;
+    }
+
+    public void setAdmissionYear(Integer admissionYear) {
+        this.admissionYear = admissionYear;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -67,15 +78,7 @@ public class Student {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
-    public String getMiddleName() {
-        return middleName;
-    }
-    
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-    
+
     public String getLastName() {
         return lastName;
     }
@@ -91,15 +94,7 @@ public class Student {
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
-    
-    public String getPhotograph() {
-        return photograph;
-    }
-    
-    public void setPhotograph(String photograph) {
-        this.photograph = photograph;
-    }
-    
+
     public Domain getDomain() {
         return domain;
     }

@@ -16,8 +16,6 @@ public interface StudentService {
     FileService fileService = new FileServiceImpl();
     
     void save(Student student,
-              InputStream photograph,
-              FormDataContentDisposition fileDetail,
               Integer domainId);
     
     Student find(Integer id);
@@ -25,4 +23,6 @@ public interface StudentService {
     Student findByRollNumber(String rollNumber);
     
     List<Student> findAll();
+
+    List<Student> findbyOrgandDomain(Integer orgId, Integer domainId);
 }

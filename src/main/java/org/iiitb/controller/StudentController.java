@@ -1,10 +1,12 @@
 package org.iiitb.controller;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.iiitb.bean.Student;
 import org.iiitb.service.StudentService;
 import org.iiitb.service.impl.StudentServiceImpl;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,37 +16,47 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.ok;
+
 @Path("/student")
 public class StudentController {
     private StudentService studentService = new StudentServiceImpl();
     
     @POST
+//    @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response addStudent(@FormDataParam("firstName") String firstName,
-                               @FormDataParam("middleName") String middleName,
-                               @FormDataParam("lastName") String lastName,
-                               @FormDataParam("emailId") String emailId,
-                               @FormDataParam("domainId") Integer domainId,
-                               @FormDataParam("photograph") InputStream photograph,
-                               @FormDataParam("photograph") FormDataContentDisposition fileDetail) throws URISyntaxException {
-        
-        Student student = new Student();
-        student.setFirstName(firstName);
-        student.setMiddleName(middleName);
-        student.setLastName(lastName);
-        student.setEmailId(emailId);
-        
-        studentService.save(student, photograph, fileDetail, domainId);
-        return Response.seeOther(new URI("/academicerp/studentlist.html")).build();
+    @Path("/submit")
+    public Response addStudent(String jsonObject) throws URISyntaxException {
+
+
+        JSONObject json = new JSONObject(jsonObject);
+        String id = json.getString("orgId");
+        System.out.println("student controller");
+//        Student student = new Student();
+//
+//        if(organizationId != null && domainId != null) {
+//            List<Student> studentList = studentService.findbyOrgandDomain(organizationId, domainId);
+//            System.out.println(studentList.get(0).toString());
+//        }
+//        else if (organizationId != null) {
+//
+//        }
+//        else if(domainId != null) {
+//
+//        }
+//        else {
+//
+//        }
+
+        return Response.seeOther(new URI("/studentlist.html")).build();
     }
     
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response showAllStudent() {
-        List<Student> studentList = studentService.findAll();
-        if (studentList == null)
-            return Response.noContent().build();
-        return Response.ok().entity(studentList).build();
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response showAllStudent() {
+//        List<Student> studentList = studentService.findAll();
+//        if (studentList == null)
+//            return Response.noContent().build();
+//        return ok().entity(studentList).build();
+//    }
 }

@@ -2,7 +2,10 @@ package org.iiitb.service.impl;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.iiitb.bean.Domain;
+import org.iiitb.bean.Organization;
 import org.iiitb.bean.Student;
+import org.iiitb.dao.DomainDao;
+import org.iiitb.dao.OrganizationDao;
 import org.iiitb.service.StudentService;
 
 import java.io.InputStream;
@@ -13,10 +16,7 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     
     @Override
-    public void save(Student student,
-                     InputStream photograph,
-                     FormDataContentDisposition fileDetail,
-                     Integer domainId) {
+    public void save(Student student, Integer domainId) {
         
         Domain domain = domainService.find(domainId);
         student.setDomain(domain);
@@ -24,13 +24,13 @@ public class StudentServiceImpl implements StudentService {
         String rollNumber = generateRollNumber(domain);
         student.setRollNumber(rollNumber);
     
-        String photographPath = "images/student/" + rollNumber + "_" + fileDetail.getFileName();
-        if (!fileService.upload(photograph, photographPath))
-            System.out.println("File Upload Error!");
-        else {
-            student.setPhotograph(photographPath);
+//        String photographPath = "images/student/" + rollNumber + "_" + fileDetail.getFileName();
+//        if (!fileService.upload(photograph, photographPath))
+//            System.out.println("File Upload Error!");
+//        else {
+//            student.setPhotograph(photographPath);
             studentDao.save(student);
-        }
+//        }
     }
     
     @Override
@@ -46,6 +46,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> findAll() {
         return studentDao.findAll();
+    }
+
+    @Override
+    public List<Student> findbyOrgandDomain(Integer orgId, Integer domainId){
+        return studentDao.findByOrgAndDomain(orgId, domainId);
     }
     
     private String generateRollNumber(Domain domain) {

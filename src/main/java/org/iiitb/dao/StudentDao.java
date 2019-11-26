@@ -75,4 +75,15 @@ public class StudentDao {
         session.close();
         return rollNumber;
     }
+
+    public List<Student> findByOrgAndDomain(Integer orgId, Integer domainId){
+        Session session = SessionUtil.getSession();
+        Transaction transaction = session.beginTransaction();
+        String hql = "FROM Student s WHERE s.org_id = :org_id ORDER BY s.rollNumber DESC";
+        Query query = session.createQuery(hql);
+        query.setParameter(":org_id", orgId);
+        List<Student> s = query.list();
+        return s;
+
+    }
 }
