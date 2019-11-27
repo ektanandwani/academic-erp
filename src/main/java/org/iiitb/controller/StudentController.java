@@ -23,40 +23,40 @@ public class StudentController {
     private StudentService studentService = new StudentServiceImpl();
     
     @POST
-//    @Produces(MediaType.TEXT_HTML)
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Path("/submit")
     public Response addStudent(String jsonObject) throws URISyntaxException {
 
-
-        JSONObject json = new JSONObject(jsonObject);
-        String id = json.getString("orgId");
         System.out.println("student controller");
-//        Student student = new Student();
-//
-//        if(organizationId != null && domainId != null) {
-//            List<Student> studentList = studentService.findbyOrgandDomain(organizationId, domainId);
-//            System.out.println(studentList.get(0).toString());
-//        }
-//        else if (organizationId != null) {
+        JSONObject json = new JSONObject(jsonObject);
+        System.out.println(json);
+        Integer orgId = Integer.parseInt(json.getString("orgId"));
+        Integer domainId = Integer.parseInt(json.getString("domainId"));
+
+        List<Student> studentList = null;
+        if(orgId != 0 && domainId != 0) {
+            studentList = studentService.findbyOrgandDomain(orgId, domainId);
+            System.out.println(studentList.size());
+        }
+//        else if (orgId != null) {
 //
 //        }
 //        else if(domainId != null) {
 //
 //        }
-//        else {
-//
-//        }
+        else if(orgId == 0 && domainId == 0) {
+            System.out.println("inside if both 0");
+            studentList = studentService.findAll();
+        }
 
-        return Response.seeOther(new URI("/studentlist.html")).build();
+        return ok().entity(studentList).build();
     }
     
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response showAllStudent() {
-//        List<Student> studentList = studentService.findAll();
-//        if (studentList == null)
-//            return Response.noContent().build();
-//        return ok().entity(studentList).build();
-//    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response showAllStudent() {
+        List<Student> studentList = studentService.findAll();
+        if (studentList == null)
+            return Response.noContent().build();
+        return ok().entity(studentList).build();
+    }
 }

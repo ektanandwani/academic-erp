@@ -37,7 +37,7 @@ public class OrganizationDao {
         Query query = session.createQuery(hql);
         query.setParameter("id", id);
         Organization org = (Organization) query.getSingleResult();
-
+        System.out.println(org.getStudents().size());
         transaction.commit();
         session.close();
         return org;

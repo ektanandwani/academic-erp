@@ -26,10 +26,10 @@ public class Student {
     private String emailId;
 
     @ManyToOne
-    private Domain domain = new Domain();
+    private Domain domain;// = new Domain();
 
     @ManyToOne
-    private Organization organization = new Organization();
+    private Organization organization; // = new Organization();
 
     public Student() {
     }
@@ -101,5 +101,13 @@ public class Student {
     
     public void setDomain(Domain domain) {
         this.domain = domain;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

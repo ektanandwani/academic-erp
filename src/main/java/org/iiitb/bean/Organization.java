@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,14 +23,14 @@ public class Organization {
     private String location;
 
     @JsonIgnore
-    @OneToMany
-    private Set<Student> students = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Student> students;// = new ArrayList<>();
 
-    public Set<Student> getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 
@@ -61,5 +63,13 @@ public class Organization {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                '}';
     }
 }

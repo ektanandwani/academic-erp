@@ -8,7 +8,7 @@ function validateLogin(){
         var domainId = $('#domainId').val();
         var organizationId = $('#organizationId').val();
         document.cookie = "username=";
-        var json =  {'orgID':organizationId,
+        var json =  {'orgId':organizationId,
             'domainId':domainId
         };
         $.ajax({
@@ -20,18 +20,31 @@ function validateLogin(){
             cache: false,
             async: true,
             timeout: 600000,
-            success: function(response) {
-                if(response.status=="200"){
+            success: function(student) {
+
+                    var student_data_body = "";
+                    for (var i = 0; i < student.length; i++) {
+                        //var domainName = student[i].domain.discipline + " " + student[i].domain.branch;
+                        student_data_body += '<tr>'
+                            + '<td>' + student[i].id + '</td>'
+                            + '<td>' + student[i].rollNumber + '</td>'
+                            + '<td>' + student[i].firstName + '</td>'
+                            + '<td>' + student[i].lastName + '</td>'
+                            + '<td>' + student[i].emailId + '</td>'
+                            //  + '<td>' + domainName + '</td>'
+                            + '</tr>';
+                    }
+                    $('#student_data tbody').html(student_data_body);
+
+
                     // window.localStorage.setItem('rollNo', response.rollNumber);
                     // window.location.href = "/webapi/student";
-                    alert("data recieved");
-                }
-                else
-                    alert("Wrong Username or Password");
+                //    alert("data recieved");
+
                 //$('.login-error').show();
 
-                $('#rollNo').val("");
-                $('#password').val("") ;
+                // $('#rollNo').val("");
+                // $('#password').val("") ;
             },
             error : function(response){
 

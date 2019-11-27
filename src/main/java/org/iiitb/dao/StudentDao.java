@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.iiitb.bean.Domain;
+import org.iiitb.bean.Organization;
 import org.iiitb.bean.Student;
 import org.iiitb.util.SessionUtil;
 
@@ -79,11 +80,15 @@ public class StudentDao {
     public List<Student> findByOrgAndDomain(Integer orgId, Integer domainId){
         Session session = SessionUtil.getSession();
         Transaction transaction = session.beginTransaction();
-        String hql = "FROM Student s WHERE s.org_id = :org_id ORDER BY s.rollNumber DESC";
+        Domain domain = session.get(Domain.class, domainId);
+        Organization org = session.get(Organization.class, orgId);
+        String hql = "FROM Student WHERE domain = :givenDomain and organization = : org";
         Query query = session.createQuery(hql);
-        query.setParameter(":org_id", orgId);
-        List<Student> s = query.list();
-        return s;
-
+        query.setParameter("givenDomain", domain);
+        query.setParameter("org", org);
+        List<Student> students = query.list();
+        transaction.commit();
+        session.close();
+        return students;
     }
 }
