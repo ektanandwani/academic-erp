@@ -15,7 +15,7 @@ $.get(api2, function (organization, status) {
     if (status == "success") {
         var organizationOptions = "";
         for (var i = 0; i < organization.length; i++) {
-            organizationOptions += '<option value="' + organization[i].id + '">' + organization[i].name + ' ' + organization[i].location + '</option>';
+            organizationOptions += '<option value="' + organization[i].id + '">' + organization[i].name + ', ' + organization[i].location + '</option>';
         }
         $("#organizationId").append(organizationOptions);
     }
