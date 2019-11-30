@@ -3,6 +3,7 @@ package org.iiitb.controller;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.iiitb.bean.Alumni;
 import org.iiitb.bean.Student;
 import org.iiitb.service.StudentService;
 import org.iiitb.service.impl.StudentServiceImpl;
@@ -24,22 +25,27 @@ public class StudentController {
     
     @POST
     @Path("/submit")
-    public Response addStudent(String jsonObject) throws URISyntaxException {
+    public Response filterStudents(String jsonObject) throws URISyntaxException {
 
         System.out.println("student controller");
         JSONObject json = new JSONObject(jsonObject);
         System.out.println(json);
         Integer orgId = Integer.parseInt(json.getString("orgId"));
         Integer domainId = Integer.parseInt(json.getString("domainId"));
+        Integer year = Integer.parseInt(json.getString("year"));
+        Integer placed = Integer.parseInt(json.getString("placed"));
+
+        Alumni a = studentService.findAlum(2);
+        System.out.println(a.getPassingYear());
 
         List<Student> studentList = null;
         if(orgId != 0 && domainId != 0) {
             studentList = studentService.findbyOrgandDomain(orgId, domainId);
             System.out.println(studentList.size());
         }
-//        else if (orgId != null) {
-//
-//        }
+        else if (orgId != null) {
+
+        }
 //        else if(domainId != null) {
 //
 //        }

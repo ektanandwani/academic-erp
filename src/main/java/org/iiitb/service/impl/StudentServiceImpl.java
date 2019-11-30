@@ -1,6 +1,7 @@
 package org.iiitb.service.impl;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.iiitb.bean.Alumni;
 import org.iiitb.bean.Domain;
 import org.iiitb.bean.Organization;
 import org.iiitb.bean.Student;
@@ -51,6 +52,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> findbyOrgandDomain(Integer orgId, Integer domainId){
         return studentDao.findByOrgAndDomain(orgId, domainId);
+    }
+
+    @Override
+    public Alumni findAlum(Integer id) {
+        return (Alumni) studentDao.find(id);
     }
     
     private String generateRollNumber(Domain domain) {
